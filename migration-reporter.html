@@ -9,7 +9,7 @@
 
 <template name="headlineFigures">
   <h1>Atmosphere / Troposphere Migration</h1>
-  <h3>Imported {{count 'completeVersions'}} / {{count 'allVersions'}} Versions</h3>
+  <h3>Migrated {{count 'completeVersions'}} / {{count 'allVersions'}} Versions</h3>
 </template>
 
 <template name="errorVersionsTable">
@@ -32,7 +32,7 @@
           <td>{{name}}</td>
           <td>{{version}}</td>
           <td>{{username}}</td>
-          <td>{{error}}</td>
+          <td><pre>{{#if expand}}{{error}}{{else}}{{truncateLines error}}{{/if}}</pre></td>
         </tr>
       {{/each}}
     </tbody>

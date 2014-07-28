@@ -9,9 +9,26 @@ if (Meteor.isClient) {
     return Counts.get(name);
   });
   
+  UI.registerHelper('truncateLines', function(message) {
+    var lines = _.filter(message.split('\n'), function(line) {
+      return ! line.match(/^\s*$/);
+    });
+    return lines[0] + '\n' + lines[1];
+  })
+  
   Template.errorVersionsTable.helpers({
     versions: function() {
       return Versions.find({error: {$exists: true}});
+    },
+    
+    expand: function() {
+      return Session.equals('expanded', EJSON.stringify(_.pick(this, 'name', 'version')));
+    }
+  });
+  
+  Template.errorVersionsTable.events({
+    'click tr': function() {
+      Session.set('expanded', EJSON.stringify(_.pick(this, 'name', 'version')));
     }
   })
 }
@@ -22,10 +39,10 @@ if (Meteor.isServer) {
   Meteor.publish('counts', function() {
     publishCount(this, 'allVersions', Versions.find({}, {fields: {_id: true}}));
     publishCount(this, 'completeVersions', Versions.find({complete: true}, {fields: {_id: true}}));
-    publishCount(this, 'errorVersions', Versions.find({errors: {$exists: true}}, {fields: {_id: true}}));
+    publishCount(this, 'errorVersions', Versions.find({error: {$exists: true}}, {fields: {_id: true}}));
   });
   
   Meteor.publish('errorVersions', function() {
-    return Versions.find({errors: {$exists: true}});
+    return Versions.find({error: {$exists: true}});
   });
 }
