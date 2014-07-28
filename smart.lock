@@ -1,0 +1,15 @@
+{
+  "meteor": {},
+  "dependencies": {
+    "basePackages": {
+      "publish-counts": {}
+    },
+    "packages": {
+      "publish-counts": {
+        "git": "https://github.com/percolatestudio/publish-counts.git",
+        "tag": "v0.2.1",
+        "commit": "46ec19e25888c806ad458c3f6ff87fa9c7b6afdc"
+      }
+    }
+  }
+}

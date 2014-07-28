@@ -1,0 +1,40 @@
+<head>
+  <title>migration-reporter</title>
+</head>
+
+<body>
+  {{> headlineFigures}}
+  {{> errorVersionsTable}}
+</body>
+
+<template name="headlineFigures">
+  <h1>Atmosphere / Troposphere Migration</h1>
+  <h3>Imported {{count 'completeVersions'}} / {{count 'allVersions'}} Versions</h3>
+</template>
+
+<template name="errorVersionsTable">
+  
+  <h2>There are {{count 'errorVersions'}} versions with errors:</h2>
+  
+  <table>
+    <thead>
+      <tr>
+        <th>Package</th>
+        <th>Version</th>
+        <th>Author</th>
+        <th>Error</th>
+      </tr>
+    </thead>
+    
+    <tbody>
+      {{#each versions}}
+        <tr>
+          <td>{{name}}</td>
+          <td>{{version}}</td>
+          <td>{{username}}</td>
+          <td>{{error}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</template>
