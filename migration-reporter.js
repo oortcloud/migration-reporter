@@ -5,7 +5,6 @@ if (Meteor.isClient) {
   Meteor.subscribe('errorVersions');
   
   UI.registerHelper('count', function(name) {
-    console.log(name)
     return Counts.get(name);
   });
   
@@ -13,7 +12,7 @@ if (Meteor.isClient) {
     var lines = _.filter(message.split('\n'), function(line) {
       return ! line.match(/^\s*$/);
     });
-    return lines[0] + '\n' + lines[1];
+    return lines.splice(0,2).join('\n');
   })
   
   Template.errorVersionsTable.helpers({
