@@ -1,5 +1,18 @@
 Versions = new Meteor.Collection('versions')
 
+var KNOWN_ERROR_REGEXPS = {
+  awaitingDep: [ /No troposphere version of/ ],
+  gitFailed: [ /is this a git repository/, /remote: Repository not found/ ]
+}
+
+var errorMatches = function(regexps) {
+  return {$or: _.map(regexps, function(r) { return {error: r}})};
+}
+
+var errorNotMatches = function(regexps) {
+  return {$and: _.map(regexps, function(r) { return {error: {$not: r}}})};
+}
+
 if (Meteor.isClient) {
   Meteor.subscribe('counts');
   Meteor.subscribe('errorVersions');
@@ -38,10 +51,18 @@ if (Meteor.isServer) {
   Meteor.publish('counts', function() {
     publishCount(this, 'allVersions', Versions.find({}, {fields: {_id: true}}));
     publishCount(this, 'completeVersions', Versions.find({complete: true}, {fields: {_id: true}}));
+    
     publishCount(this, 'errorVersions', Versions.find({error: {$exists: true}}, {fields: {_id: true}}));
+    publishCount(this, 'awaitingDepVersions', 
+      Versions.find(errorMatches(KNOWN_ERROR_REGEXPS.awaitingDep), {fields: {_id: true}})
+    );
+    publishCount(this, 'gitFailedVersions', 
+      Versions.find(errorMatches(KNOWN_ERROR_REGEXPS.gitFailed), {fields: {_id: true}})
+    );
   });
   
   Meteor.publish('errorVersions', function() {
-    return Versions.find({error: {$exists: true}});
+    var matcher = {$and: _.map(KNOWN_ERROR_REGEXPS, errorNotMatches)};
+    return Versions.find(_.extend({error: {$exists: true}}, matcher));
   });
 }
