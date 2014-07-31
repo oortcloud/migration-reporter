@@ -10,8 +10,7 @@
 <template name="headlineFigures">
   <h1>Atmosphere / Troposphere Migration</h1>
   <h3>{{count 'allVersions'}} versions in DB</h3>
-  <h3>{{count 'completeVersions'}} successfully migrated!</h3>
-  <h3>({{count 'alreadyRegisteredVersions'}} previously successfully migrated!)</h3>
+  <h3>{{successfullyMigrated}} successfully migrated!</h3>
 </template>
 
 <template name="errorVersionsTable">

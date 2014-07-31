@@ -48,7 +48,6 @@ if (Meteor.isClient) {
   Meteor.subscribe('errorVersions');
   
   UI.registerHelper('count', function(name) {
-    console.log(name.toString())
     return Counts.get(name.toString());
   });
   
@@ -60,6 +59,12 @@ if (Meteor.isClient) {
   })
   
   Template.errorVersionsTable.helpers({
+    successfullyMigrated: function() {
+      return Counts.get('completeVersions') +
+        Counts.get('registeredAtAtmosphere') +
+        Counts.get('registeredAtTroposphere');
+    },
+    
     versions: function() {
       return Versions.find({error: {$exists: true}});
     },
