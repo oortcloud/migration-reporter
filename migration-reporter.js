@@ -56,15 +56,17 @@ if (Meteor.isClient) {
       return ! line.match(/^\s*$/);
     });
     return lines.splice(0,2).join('\n');
-  })
+  });
   
-  Template.errorVersionsTable.helpers({
+  Template.headlineFigures.helpers({
     successfullyMigrated: function() {
       return Counts.get('completeVersions') +
         Counts.get('registeredAtAtmosphere') +
         Counts.get('registeredAtTroposphere');
-    },
-    
+    }
+  });
+  
+  Template.errorVersionsTable.helpers({
     versions: function() {
       return Versions.find({error: {$exists: true}});
     },
