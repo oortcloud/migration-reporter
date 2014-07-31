@@ -11,14 +11,19 @@
   <h1>Atmosphere / Troposphere Migration</h1>
   <h3>{{count 'allVersions'}} versions in DB</h3>
   <h3>{{count 'completeVersions'}} successfully migrated!</h3>
+  <h3>({{count 'alreadyRegisteredVersions'}} previously successfully migrated!)</h3>
 </template>
 
 <template name="errorVersionsTable">
   
-  <h2>There are {{count 'errorVersions'}} versions with errors:</h2>
-  <h3>{{count 'awaitingDepVersions'}} are awaiting a dependency.</h3>
-  <h3>{{count 'gitFailedVersions'}} failed to checkout from git.</h3>
+  <h2>Errors:</h2>
+  <ul>
+    {{#each knownErrorTypes}}
+      <li>{{count this}}&nbsp; <code>{{this}}</code> errors.</li>
+    {{/each}}
+  </ul>
   
+  <h3>{{versions.count}} unknown errors:</h3>
   <table>
     <thead>
       <tr>
