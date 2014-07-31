@@ -1,7 +1,8 @@
 Versions = new Meteor.Collection('versions')
 
 var KNOWN_ERROR_REGEXPS = {
-  alreadyRegistered: [ /Package already registered/ ],
+  registeredAtAtmosphere: [ /Package already registered/ ],
+  registeredAtTroposphere: [ /Version already exists/ ],
   awaitingDep: [ /No troposphere version of/ ],
   gitFailed: [ 
     /is this a git repository/, 
